@@ -4,7 +4,7 @@ const App = () => {
     const [sudokuBoard, setSudokuBoard] = useState(null);
     const [editableCells, setEditableCells] = useState(null); // Tracks editable cells
     const [selectedCell, setSelectedCell] = useState(null); // Tracks the currently selected cell
-
+    
     useEffect(() => {
         // Fetch data from the API
         const fetchSudokuBoard = async () => {
@@ -32,6 +32,19 @@ const App = () => {
     }, []);
 
     useEffect(() => {
+        // Warn the user before refreshing or leaving the page
+        const handleBeforeUnload = (e) => {
+            e.preventDefault();
+            e.returnValue = ""; // Required for the confirmation dialog
+        };
+        
+        window.addEventListener("beforeunload", handleBeforeUnload);
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, []);
+
+    useEffect(() => {
         // Keydown listener for number input
         const handleKeyDown = (e) => {
             if (!selectedCell || !editableCells) return;
@@ -39,8 +52,8 @@ const App = () => {
             const { rowIndex, colIndex } = selectedCell;
             const number = parseInt(e.key, 10);
 
-            // Validate input (1-9)
-            if (number >= 1 && number <= 9) {
+            // Only allow updating editable cells with numbers 1-9
+            if (editableCells[rowIndex][colIndex] && number >= 1 && number <= 9) {
                 setSudokuBoard(prevBoard => {
                     const newBoard = [...prevBoard];
                     newBoard[rowIndex] = [...newBoard[rowIndex]];
@@ -55,10 +68,8 @@ const App = () => {
     }, [selectedCell, editableCells]);
 
     const handleCellClick = (rowIndex, colIndex) => {
-        // Only allow selection of editable cells
-        if (editableCells[rowIndex][colIndex]) {
-            setSelectedCell({ rowIndex, colIndex });
-        }
+        // Allow selecting any cell but restrict editing in handleKeyDown
+        setSelectedCell({ rowIndex, colIndex });
     };
 
     return (
@@ -74,9 +85,12 @@ const App = () => {
                                     ${editableCells[rowIndex][colIndex]
                                         ? selectedCell?.rowIndex === rowIndex &&
                                             selectedCell?.colIndex === colIndex
-                                            ? "bg-blue-100" // Highlight selected cell
+                                            ? "bg-blue-100" // Highlight selected editable cell
                                             : "bg-white"
-                                        : "bg-gray-200"
+                                        : selectedCell?.rowIndex === rowIndex &&
+                                            selectedCell?.colIndex === colIndex
+                                            ? "bg-blue-200" // Highlight selected non-editable cell
+                                            : "bg-gray-200"
                                     } 
                                     ${rowIndex % 3 === 2 && rowIndex !== 8 ? "border-b-3 border-black" : ""} 
                                     ${colIndex % 3 === 2 && colIndex !== 8 ? "border-r-3 border-black" : ""}`}
@@ -93,5 +107,6 @@ const App = () => {
         </div>
     );
 };
+
 
 export default App;
