@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
+
 
 const App = () => {
     const [sudokuBoard, setSudokuBoard] = useState(null);
@@ -8,7 +10,7 @@ const App = () => {
     const [allowRefresh, setAllowRefresh] = useState(false); // Control whether to refresh
     const [originalBoard, setOriginalBoard] = useState(null);
     const [solutionBoard, setSolutionBoard] = useState(null);
-
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         // Fetch data from the API
@@ -62,30 +64,71 @@ const App = () => {
         return () => window.removeEventListener("keydown", handleKeyDown);
     }, [selectedCell, editableCells]);
 
+    // useEffect(() => {
+    //     // Beforeunload listener to show custom alert
+    //     const handleBeforeUnload = (e) => {
+    //         if (!allowRefresh) {
+    //             e.preventDefault();
+    //             e.returnValue = ""; // Required for some browsers
+    //             setShowAlert(true); // Show the alert
+    //         }
+    //     };
+
+    //     window.addEventListener("beforeunload", handleBeforeUnload);
+    //     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    // }, [allowRefresh]);
+
+    // const handleOkClick = () => {
+    //     setAllowRefresh(true);
+    //     setTimeout(() => {
+    //         window.location.reload(); // Refresh the page without showing the modal again
+    //     }, 0); // Trigger the refresh
+    // };
+
+
+
+
     useEffect(() => {
-        // Beforeunload listener to show custom alert
-        const handleBeforeUnload = (e) => {
-            if (!allowRefresh) {
-                e.preventDefault();
-                e.returnValue = ""; // Required for some browsers
-                setShowAlert(true); // Show the alert
+        const handleKeyDown = (event) => {
+            // Check if Ctrl+R is pressed
+            if ((event.ctrlKey && event.key === "r") || event.key === "F5") {
+                event.preventDefault(); // Prevent default reload
+                setShowAlert(true); // Show custom reload modal
             }
         };
+        
+        const handleBeforeUnload = (event) => {
+            event.preventDefault(); 
+            event.returnValue = ''; 
+            return ""; 
+        };
 
-        window.addEventListener("beforeunload", handleBeforeUnload);
-        return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-    }, [allowRefresh]);
+        // // Attach keydown and beforeunload event listeners
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("beforeunload", handleBeforeUnload,{passive:false});
 
+        // // Cleanup event listeners on unmount
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, []);
     const handleOkClick = () => {
-        setAllowRefresh(true);
+        setShowAlert(false); // Close the modal
         setTimeout(() => {
             window.location.reload(); // Refresh the page without showing the modal again
-        }, 0); // Trigger the refresh
+        }, 0);
+    };
+    const handleDismissClick = () => {
+        setShowAlert(false); // Close modal without reloading
     };
 
-    const handleDismissClick = () => {
-        setShowAlert(false); // Close the alert
-    };
+
+
+
+    // const handleDismissClick = () => {
+    //     setShowAlert(false); // Close the alert
+    // };
 
     const handleCellClick = (rowIndex, colIndex) => {
         // Allow selecting any cell but restrict editing in handleKeyDown
@@ -116,10 +159,10 @@ const App = () => {
     const handleCheckClick = () => {
         console.log(sudokuBoard);
         if (isBoardsEqual(solutionBoard, sudokuBoard)) {
-            alert("Correct");    
+            toast("Correct");    
         }
         else {
-            alert("Incorrect");
+            toast("Incorrect");
         }
     };
 

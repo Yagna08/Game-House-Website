@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+.toastBody{
+  font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
+  font-size: 1rem ;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -8,7 +8,6 @@ import NotFound from './components/NotFound';
 import TicTacToe2Player from './components/TicTacToe2Player';
 import TicTacToeAI from './components/TicTacToeAI';
 import Sudoku from './components/Sudoku';
-import SudokuAPI from './components/SudokuAPI';
 import Wordle from './components/Wordle';
 function App() {
   return (
