@@ -11,7 +11,17 @@ root.render(
   <React.StrictMode>
     <App />
     <ToastContainer
-    bodyClassName="toastBody"
+      bodyClassName="toastBody"
+      position="bottom-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
     />
   </React.StrictMode>
 );
