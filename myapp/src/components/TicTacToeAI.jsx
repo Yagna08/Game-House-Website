@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from 'react-toastify';
 
 const TicTacToeAI = () => {
     const [board, setBoard] = useState(Array(9).fill(''))
@@ -27,6 +28,7 @@ const TicTacToeAI = () => {
             for (let i = 0; i < WIN_POSITION.length; i++) {
                 const [x, y, z] = WIN_POSITION[i];
                 if (board[x] && board[x] === board[y] && board[y] === board[z]) {
+                    toast.success(board[x] + " Won");
                     setGameOver(true);
                     setWinner(board[x])
                     return;
@@ -34,6 +36,7 @@ const TicTacToeAI = () => {
             }
             const allFilled = board.every((value) => value !== '');
             if (allFilled) {
+                toast.success("It's a TIE");
                 setWinner('Tie')
                 setGameOver(true)
             }

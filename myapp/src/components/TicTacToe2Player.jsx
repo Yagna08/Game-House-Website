@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from 'react-toastify';
 
 const TicTacToe2Player = () => {
   const [board, setBoard] = useState(Array(9).fill(''))
@@ -24,11 +25,13 @@ const TicTacToe2Player = () => {
         if (board[x] && board[x] === board[y] && board[y] === board[z]) {
           setGameOver(true);
           setWinner(board[x])
+          toast.success(board[x]+" Won");
           return;
         }
       }
       const allFilled = board.every((value) => value !== '');
       if (allFilled) {
+        toast.success("It's a TIE");
         setWinner('Tie')
         setGameOver(true)
       }
@@ -46,9 +49,12 @@ const TicTacToe2Player = () => {
     const updateBoard = board.map((value, idx) => {
       if (idx == index && value === '') {
         if (turn === 'X')
+        {
           setTurn('O')
-        else
+        }
+        else {
           setTurn('X')
+        }
         return turn;
       }
       else {
@@ -71,7 +77,7 @@ const TicTacToe2Player = () => {
       x += 0.5
       o += 0.5
       let temp = { x: x, o: o }
-      console.log(temp)
+      // console.log(temp)
       setScore(temp)
     }
     if (!gameOver)
@@ -79,6 +85,8 @@ const TicTacToe2Player = () => {
     else
       reset()
   }
+
+
   return (
     <>
       <div className="flex flex-row items-center justify-evenly w-80 m-own shadow-bs-1 text-2xl rounded-lg font-bold">
@@ -89,7 +97,7 @@ const TicTacToe2Player = () => {
         {
           
           board.map((value, index) => {
-            console.log(value)
+            // console.log(value)
             let box_style = value === 'X' ? "bg-white border-none rounded-[10%] shadow-bs-1 w-20 h-20 text-center text-5rem m-2 font-bold text-red-600 hover:shadow-bs-1-hover" : "bg-white border-none rounded-[10%] shadow-bs-1 w-20 h-20 text-center text-5rem m-2 font-bold text-blue-600 hover:shadow-bs-1-hover"
             return <button className={box_style} onClick={() => { handleClick(index) }}>{value}</button>;
           })
