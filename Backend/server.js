@@ -6,7 +6,7 @@ require('dotenv').config()
 const cors = require('cors')
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow requests from this origin
+    origin: 'https://gamehouse-dmolpk5pt-yagna08s-projects.vercel.app/', // Allow requests from this origin
     methods: ['GET', 'POST'],       // Specify allowed methods
     credentials: true               // Include credentials if necessary
 }));
