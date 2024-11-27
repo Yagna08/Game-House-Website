@@ -23,7 +23,7 @@ const Signup = () => {
         username !== "" &&
         regex.test(password)
       ) {
-        const res = await axios.post("http://localhost:5000/api/user/signup", {
+        const res = await axios.post("https://game-house-website-backend.vercel.app/api/user/signup", {
           username,
           email,
           password,

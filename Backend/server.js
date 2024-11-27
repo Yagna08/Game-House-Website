@@ -5,9 +5,13 @@ const bodyParser = require('body-parser');
 require('dotenv').config()
 const cors = require('cors')
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Allow requests from this origin
+    methods: ['GET', 'POST'],       // Specify allowed methods
+    credentials: true               // Include credentials if necessary
+}));
 app.use(bodyParser.json());
-mongoose.connect(process.env.MONGODB).then(()=>{console.log('Mongo DB is connected')});
+mongoose.connect(process.env.MONGODB).then(() => { console.log('Mongo DB is connected') });
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -65,7 +69,7 @@ app.post('/api/user/signup', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-// });
-module.exports = app;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+// module.exports = app;

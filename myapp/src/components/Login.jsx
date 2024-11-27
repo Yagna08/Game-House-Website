@@ -14,7 +14,7 @@ const Login = () => {
 
     console.log(email, password);
     try {
-      const res = await axios.post("http://localhost:5000/api/user/login", {
+      const res = await axios.post("https://game-house-website-backend.vercel.app/api/user/login", {
         email,
         password,
       });
