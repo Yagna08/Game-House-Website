@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import WORDS from './words.json'
-import { observer, useLocalObservable } from 'mobx-react-lite'
+// import { observer, useLocalObservable } from 'mobx-react-lite'
 import Guess from './Guess'
 const word = WORDS[Math.floor(Math.random() * WORDS.length)]
 
