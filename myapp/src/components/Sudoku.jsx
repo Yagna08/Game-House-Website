@@ -9,6 +9,7 @@ const App = () => {
     const [showAlert, setShowAlert] = useState(false); // Control alert visibility
     const [originalBoard, setOriginalBoard] = useState(null);
     const [solutionBoard, setSolutionBoard] = useState(null);
+    const [selectedNumber, setSelectedNumber] = useState(null); // Tracks the selected number
 
     useEffect(() => {
         const fetchSudokuBoard = async () => {
@@ -119,6 +120,21 @@ const App = () => {
         }
     };
 
+    const handleNumberClick = (num) => {
+        setSelectedNumber(num);
+        if (selectedCell) {
+            const { rowIndex, colIndex } = selectedCell;
+            if (editableCells[rowIndex][colIndex]) {
+                setSudokuBoard(prevBoard => {
+                    const newBoard = [...prevBoard];
+                    newBoard[rowIndex] = [...newBoard[rowIndex]];
+                    newBoard[rowIndex][colIndex] = num;
+                    return newBoard;
+                });
+            }
+        }
+    };
+
     const handleResetClick = () => {
         if (originalBoard) {
             setSudokuBoard([...originalBoard]);
@@ -158,6 +174,20 @@ const App = () => {
                         <p>Loading Sudoku board...</p>
                     )}
 
+                    <div className="flex justify-center gap-1">
+                        {Array.from({ length: 9 }, (_, i) => i + 1).map(num => (
+                            <button
+                                key={num}
+                                className={`w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center text-xl font-bold
+                                        ${num === selectedNumber ? "bg-blue-300" : "hover:bg-blue-100"}`}
+                                onClick={() => handleNumberClick(num)}
+                            >
+                                {num}
+                            </button>
+                        ))}
+                    </div>
+
+            
                     <div className="flex flex-wrap justify-center gap-4">
                         <button
                             className="text-white bg-cyan-500 hover:bg-cyan-600 font-medium rounded-lg text-sm px-5 py-2.5"
