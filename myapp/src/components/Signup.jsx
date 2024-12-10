@@ -48,7 +48,7 @@ const Signup = () => {
         message.error("Password and Confirm Password are different");
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       message.error("Something went wrong");
     }
   };

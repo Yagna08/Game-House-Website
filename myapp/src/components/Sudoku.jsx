@@ -27,7 +27,7 @@ const App = () => {
                     setEditableCells(editable);
                 }
             } catch (error) {
-                console.error("Error fetching Sudoku board:", error);
+                // console.error("Error fetching Sudoku board:", error);
             }
         };
 

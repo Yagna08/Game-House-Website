@@ -37,15 +37,15 @@ app.post('/api/user/login', async (req, res) => {
 
     try {
         const { email, password } = req.body;
-        console.log(email,password)
+        // console.log(email,password)
         const user = await User.find({ email });
-        console.log(user)
+        // console.log(user)
         if (!user) {
-            console.log(user)
+            // console.log(user)
             return res.status(401).json({ error: 'User not found.' });
         }
         if (password !== user[0].password ) {
-            console.log(user)
+            // console.log(user)
             return res.status(401).json({ error: 'Invalid password.' });
         }
         
@@ -59,7 +59,7 @@ app.post('/api/user/signup', async (req, res) => {
     try {
         
         const { username, email, password } = req.body;
-        console.log(username,email,password)
+        // console.log(username,email,password)
         const newUser = new User({ username, email, password });
         await newUser.save();
         res.status(201).json({ message: 'User signed up successfully.' ,success:true});

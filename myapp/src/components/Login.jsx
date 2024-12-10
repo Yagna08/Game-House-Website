@@ -30,7 +30,7 @@ const Login = () => {
         message.error(res.data.message);
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       message.error("Something went wrong");
     }
   };

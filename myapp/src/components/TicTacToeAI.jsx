@@ -51,7 +51,7 @@ const TicTacToeAI = () => {
     }
 
     const checkDangerPos = (tempBoard) => {
-        console.log(tempBoard)
+        // console.log(tempBoard)
         for (let i = 0; i < dangers.length; i++) {
             if (tempBoard == dangers[i].toLowerCase) {
                 compMove = counterDangerMove[i]
@@ -111,7 +111,7 @@ const TicTacToeAI = () => {
         if (move) Winner('X', tempBoard)
 
         if (move) checkDangerPos(tempBoard)
-        console.log(move)
+        // console.log(move)
         if (move) checkCentre(tempBoard)
         if (move) checkCorner(tempBoard)
         if (move) checkEdge(tempBoard)

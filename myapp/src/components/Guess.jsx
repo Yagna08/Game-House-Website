@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Guess = ({ isGuessed, guess, word }) => {
-    console.log(guess)
+    // console.log(guess)
     return (
       < div className='grid grid-cols-5 gap-2 mb-2' >
           {
